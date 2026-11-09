@@ -7,11 +7,11 @@ import warnings
 warnings.filterwarnings('ignore', category=UserWarning)
 
 def get_db_connection():
-    """Établit la connexion à la base de données PostgreSQL log_analysis."""
+    """Établit la connexion à la base de données PostgreSQL Log_Analyser."""
     return psycopg2.connect(
-        dbname="log_analysis", 
+        dbname="Log_Analyser", 
         user="postgres",
-        password="123", 
+        password="1234567890", 
         host="localhost",
         port="5432"
     )
@@ -39,7 +39,6 @@ def generate_dashboard():
 
     # 1. Top 10 des Pays (FILTRÉ)
     plt.subplot(2, 2, 1)
-    # Hna kan-7iydo Limit_Reached, Local, w Unknown
     df_countries = df[~df['country'].isin(['Limit_Reached', 'Local', 'Unknown'])]
     top_countries = df_countries['country'].value_counts().head(10)
     top_countries.plot(kind='bar', color='skyblue', edgecolor='black')
@@ -51,7 +50,6 @@ def generate_dashboard():
 
     # 2. Top 10 des Adresses IP (FILTRÉ)
     plt.subplot(2, 2, 2)
-    # Hna kan-7iydo N/A w l-adresses locales bhal 127.0.0.1
     df_ips = df[~df['ip_address'].isin(['N/A', '127.0.0.1'])]
     top_ips = df_ips['ip_address'].value_counts().head(10)
     top_ips.plot(kind='bar', color='salmon', edgecolor='black')
@@ -61,7 +59,7 @@ def generate_dashboard():
     plt.xticks(rotation=45)
     plt.grid(axis='y', linestyle='--', alpha=0.7)
 
-    # 3. Top 10 des Ports visés (Déjà filtré f l'ancien code)
+    # 3. Top 10 des Ports visés
     plt.subplot(2, 2, 3)
     df_ports = df[df['port'].notna() & (df['port'] != '') & (df['port'] != 'N/A')]
     top_ports = df_ports['port'].value_counts().head(10)
